@@ -8,7 +8,7 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
-      path: '/',
+      path: '/registerview',
       name: 'RegisterView',
       component: () => import(/* webpackChunkName: "about" */ './views/RegisterView.vue')
     },
