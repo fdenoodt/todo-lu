@@ -8,14 +8,19 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      name: 'HomeView',
+      component: () => import('./views/HomeView.vue')
+    },
+    {
       path: '/registerview',
       name: 'RegisterView',
-      component: () => import(/* webpackChunkName: "about" */ './views/RegisterView.vue')
+      component: () => import('./views/RegisterView.vue')
     },
     {
       path: '/signinview',
       name: 'SignInView',
-      component: () => import(/* webpackChunkName: "about" */ './views/SignInView.vue')
+      component: () => import('./views/SignInView.vue')
     }
   ]
 })

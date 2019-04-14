@@ -1,9 +1,7 @@
 <template>
   <div>
-    <p>Sign in</p>|
-    <!-- <router-link to="/RegisterView">Register</router-link> -->
-
-    <!-- <p>{{user.email}}</p> -->
+    <p>Sign in</p>
+    <router-link to="/RegisterView">Register</router-link>
   </div>
 </template>
 
