@@ -1,11 +1,22 @@
 <template>
   <div>
-    <H1>Todo-Lu</H1>
+    <h1>Todo-Lu</h1>
   </div>
 </template>
 
 <script>
-export default {};
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  name: "HomeView",
+  methods: {
+    ...mapActions(["initAccount"])
+  },
+  computed: mapGetters(["getUser"]),
+  created() {
+    this.initAccount();
+  }
+};
 </script>
 
 <style>
