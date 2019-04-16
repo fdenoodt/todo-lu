@@ -12,8 +12,8 @@ export default {
   components: {},
   data() {
     return {
-      email: "em",
-      password: "pw"
+      email: "f@h.com",
+      password: "password"
     };
   }
 };

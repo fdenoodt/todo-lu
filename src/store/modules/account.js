@@ -12,49 +12,45 @@ const getters = {
 /* eslint-disable */
 const actions = {
   initAccount({ commit }) {
-    commit('setUser', "user")
-    firebase.auth().onAuthStateChanged((response) => {
-      if (response) {
-        commit('setUser', response)
-        router.push("/HomeView")
+    firebase
+      .auth()
+      .onAuthStateChanged((response) => {
+        if (response) {
+          commit('setUser', response)
+          router.push("/HomeView")
 
-      }
-      else {
-        commit('setUser', null)
-        router.push("/SignInView")
-      }
+        }
+        else {
+          commit('setUser', null)
+          router.push("/SignInView")
+        }
 
-    })
+      })
   },
-  signIn(user) {
+  signIn({ commit }, user) {
     const email = user.email
     const pw = user.password
 
     firebase
       .auth()
       .signInWithEmailAndPassword(email, pw)
-      .then(user => {
-        console.log(user)
-      })
       .catch(() => {
         console.log("error")
       })
-
-
   },
-  register(user) {
+  register({ commit }, user) {
     const email = user.email
     const pw = user.password
 
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, pw)
-      .then(user => {
-        console.log(user);
-      })
       .catch(() => {
         console.log("error")
       });
+  },
+  signOut({ commit }) {
+    firebase.auth().signOut();
   }
 }
 

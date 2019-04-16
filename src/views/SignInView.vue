@@ -10,9 +10,14 @@
 
 
 <script>
+import Form from "../components/Form";
 import { mapActions } from "vuex";
+
 export default {
   name: "SignInView",
+  components: {
+    Form
+  },
   methods: {
     ...mapActions(["signIn"]),
     submit(email, password) {
