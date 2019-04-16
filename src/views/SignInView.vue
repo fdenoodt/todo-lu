@@ -1,18 +1,24 @@
 <template>
   <div>
-    <p>Sign in</p>
-    <router-link to="/RegisterView">Register</router-link>
+    <h1>Sign in</h1>
+    <Form v-on:form-submit="submit"></Form>
+    <p>
+      <router-link to="/RegisterView">Register</router-link>
+    </p>
   </div>
 </template>
 
+
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "SignInView",
   methods: {
-    test() {}
+    ...mapActions(["signIn"]),
+    submit(email, password) {
+      this.signIn({ email, password });
+    }
   },
-  created() {
-    this.test();
-  }
+  created() {}
 };
 </script>
