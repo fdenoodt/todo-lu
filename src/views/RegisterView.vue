@@ -3,7 +3,7 @@
     Create an account
     <Form v-on:form-submit="submit"></Form>
     <p>
-      <router-link to="/SignInView">Register</router-link>
+      <router-link to="/SignInView">Sign in</router-link>
     </p>
   </div>
 </template>

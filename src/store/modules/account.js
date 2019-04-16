@@ -9,13 +9,24 @@ const getters = {
   getUser: (state) => state.user
 }
 
+/* eslint-disable */
 const actions = {
   initAccount({ commit }) {
     commit('setUser', "user")
-    router.push("/SignInView");
+    firebase.auth().onAuthStateChanged((response) => {
+      if (response) {
+        commit('setUser', response)
+        router.push("/HomeView")
+
+      }
+      else {
+        commit('setUser', null)
+        router.push("/SignInView")
+      }
+
+    })
   },
-  /* eslint-disable */
-  signIn({ commit }, user) {
+  signIn(user) {
     const email = user.email
     const pw = user.password
 
@@ -31,7 +42,7 @@ const actions = {
 
 
   },
-  register({ commit }, user) {
+  register(user) {
     const email = user.email
     const pw = user.password
 
