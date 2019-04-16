@@ -9,6 +9,11 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'LoadingView',
+      component: () => import('./views/LoadingView.vue')
+    },
+    {
+      path: '/homeview',
       name: 'HomeView',
       component: () => import('./views/HomeView.vue')
     },
