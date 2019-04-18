@@ -1,38 +1,36 @@
 <template>
   <div id="app">
-    <nav v-bind:class="{'hidden':getUser == null}">
-      <ul>
-        <li>
-          <b-button @click="rip">sign out</b-button>
-        </li>
-      </ul>
-    </nav>
-    <router-view/>
+    <b-container fluid>
+      <b-row>
+        <div v-bind:class="{'hidden':getUser == null}">
+          <b-col cols="12" md="auto">
+            <Sidebar/>
+          </b-col>
+        </div>
+        <b-col>
+          <router-view/>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import Sidebar from "./components/Sidebar";
+import { mapGetters } from "vuex";
+
 export default {
   name: "app",
-  components: {},
   computed: {
     ...mapGetters(["getUser"])
   },
-  methods: {
-    ...mapActions(["signOut"]),
-    rip() {
-      this.signOut();
-    }
-  }
+  components: { Sidebar }
 };
 </script>
 
 <style>
 #app {
-}
-
-.hidden {
-  display: none;
+  padding: 0;
+  margin: 0;
 }
 </style>

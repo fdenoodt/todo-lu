@@ -5,16 +5,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   name: "HomeView",
-  methods: {
-    ...mapActions(["initAccount"])
-  },
+  methods: {},
   computed: mapGetters(["getUser"]),
   created() {
-    this.initAccount();
   }
 };
 </script>
