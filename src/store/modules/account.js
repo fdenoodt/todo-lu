@@ -1,8 +1,12 @@
 import router from '../../router'
 import firebase from 'firebase'
+import { db } from '../../firebase'
 
 const state = {
-  user: null
+  user: null,
+  tasks: [],
+  notes: [],
+  reminder: []
 }
 
 const getters = {
@@ -18,7 +22,6 @@ const actions = {
         if (response) {
           commit('setUser', response)
           router.push("/HomeView")
-
         }
         else {
           commit('setUser', null)
@@ -45,8 +48,18 @@ const actions = {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, pw)
-      .catch(() => {
-        console.log("error")
+      .then(() => {
+        const uid = firebase.auth().currentUser.uid
+        db.collection("users")
+          .doc(uid)
+          .set({
+            tasks: [],
+            reminders: [],
+            notes: []
+          })
+      })
+      .catch((ex) => {
+        console.log("error", ex)
       });
   },
   signOut({ commit }) {
