@@ -26,6 +26,21 @@ export default new Router({
       path: '/signinview',
       name: 'SignInView',
       component: () => import('./views/SignInView.vue')
+    },
+    {
+      path: '/tasksview',
+      name: 'TasksView',
+      component: () => import('./views/TasksView.vue')
+    },
+    {
+      path: '/remindersview',
+      name: 'RemindersView',
+      component: () => import('./views/RemindersView.vue')
+    },
+    {
+      path: '/notesview',
+      name: 'NotesView',
+      component: () => import('./views/NotesView.vue')
     }
   ]
 })

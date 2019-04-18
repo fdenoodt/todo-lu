@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-nav vertical>
-      <b-nav-item active>Tasks</b-nav-item>
-      <b-nav-item>Reminders</b-nav-item>
-      <b-nav-item>Notes</b-nav-item>
+      <b-nav-item to="/TasksView" active>Tasks</b-nav-item>
+      <b-nav-item to="/RemindersView">Reminders</b-nav-item>
+      <b-nav-item to="/NotesView">Notes</b-nav-item>
       <b-nav-item @click="rip">sign out</b-nav-item>
     </b-nav>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    Create an account
+    <h1>Create an account</h1>
     <Form v-on:form-submit="submit"></Form>
     <p>
       <router-link to="/SignInView">Sign in</router-link>
