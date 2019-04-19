@@ -6,11 +6,14 @@ const state = {
   user: null,
   tasks: [],
   notes: [],
-  reminder: []
+  reminders: []
 }
 
 const getters = {
-  getUser: (state) => state.user
+  getUser: (state) => state.user,
+  getTasks: (state) => state.tasks,
+  getReminders: (state) => state.reminders,
+  getNotes: (state) => state.notes
 }
 
 /* eslint-disable */
