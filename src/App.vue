@@ -17,14 +17,20 @@
 
 <script>
 import Sidebar from "./components/Sidebar";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "app",
   computed: {
     ...mapGetters(["getUser"])
   },
-  components: { Sidebar }
+  methods: {
+    ...mapActions(["initAccount"])
+  },
+  components: { Sidebar },
+  created() {
+    this.initAccount();
+  }
 };
 </script>
 
