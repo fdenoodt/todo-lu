@@ -1,13 +1,26 @@
 <template>
-  <h1>Tasks</h1>
+  <div>
+    <div>
+      <TaskViewHeader/>
+    </div>
+    <div>
+      <Tasks/>
+    </div>
+  </div>
 </template>
 
 <script>
-export default {
+import Tasks from "../components/Tasks";
+import TaskViewHeader from "../components/TaskViewHeader";
 
-}
+export default {
+  name: "TaskView",
+  components: {
+    Tasks,
+    TaskViewHeader
+  }
+};
 </script>
 
 <style>
-
 </style>
