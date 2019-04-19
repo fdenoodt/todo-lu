@@ -7,7 +7,14 @@
             <h2 class="m-0 lead">{{task.title}}</h2>
           </b-col>
           <b-col md="auto" class="p-0 m-0">
-            <p class="m-0 text-muted">{{task.date}} - 1d</p>
+            <p class="m-0 text-muted">
+              {{new Date(task.date).toLocaleDateString("nl-BE")}}
+              <span class="font-weight-bold text-primary">
+                {{
+                Math.floor(((new Date(task.date)) - new Date()) / (24 * 60 * 60 * 1000)) + 1
+                }}D
+              </span>
+            </p>
           </b-col>
         </b-row>
         <p class="m-0">{{task.content}}</p>

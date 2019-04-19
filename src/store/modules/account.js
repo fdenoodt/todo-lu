@@ -19,9 +19,9 @@ const getters = {
 /* eslint-disable */
 const actions = {
   initAccount({ commit }) {
-    actions.listenForChanges(commit, 'tasks')
-    actions.listenForChanges(commit, 'reminders')
-    actions.listenForChanges(commit, 'notes')
+    actions.listenForChanges(commit, 'taskss')
+    // actions.listenForChanges(commit, 'reminders')
+    // actions.listenForChanges(commit, 'notes')
   },
   listenForChanges(commit, collection) {
     firebase
@@ -40,7 +40,8 @@ const actions = {
                 data = doc.data().list
 
               const nameCapitalized = collection.charAt(0).toUpperCase() + collection.slice(1)
-              commit('set' + nameCapitalized, data) //setTask | setReminders | setNotes
+              // commit('set' + nameCapitalized, data) //setTask | setReminders | setNotes
+              commit('setTasks', data) //setTask | setReminders | setNotes
             })
         }
         else {
@@ -79,25 +80,22 @@ const actions = {
   },
   addTask({ commit }) {
     const uid = firebase.auth().currentUser.uid
+    const today = Date.now();
 
-    let today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    const yyyy = today.getFullYear();
-
-    today = mm + '/' + dd + '/' + yyyy;
+    console.log("adding");
     db.collection('users')
       .doc(uid)
       .collection('data')
-      .doc('tasks')
+      .doc('taskss')
       .set({
         list: firebase.firestore.FieldValue.arrayUnion({
           title: 'new task',
           content: 'dat',
           tags: ['big', 'small'],
-          date: today,
+          date: today, //id: prevents new task from overiding existing one
         })
-      }, { merge: true });
+      }, { merge: true })
+      .catch((error) => console.error("error: ", error))
   }
 }
 
