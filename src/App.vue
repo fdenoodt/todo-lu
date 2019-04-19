@@ -39,4 +39,14 @@ export default {
   padding: 0;
   margin: 0;
 }
+
+::-webkit-scrollbar {
+  background-color: #fff;
+  width: 0.4em;
+}
+
+::-webkit-scrollbar-thumb:window-inactive,
+::-webkit-scrollbar-thumb {
+  background: lightgray;
+}
 </style>
