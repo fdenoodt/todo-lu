@@ -2,15 +2,20 @@
   <div>
     <div class="row">
       <h1 class="col">Tasks</h1>
-      <div class="col text-right m-2">
-        <button type="button" class="btn btn-primary">+</button>
-      </div>
+      <AddTask/>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import AddTask from "./AddTask";
+
+export default {
+  name: "TaskViewHeader",
+  components: {
+    AddTask
+  }
+};
 </script>
 
 <style>
