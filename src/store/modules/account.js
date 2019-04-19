@@ -19,34 +19,34 @@ const getters = {
 /* eslint-disable */
 const actions = {
   initAccount({ commit }) {
+    actions.listenForChanges(commit, 'tasks')
+    actions.listenForChanges(commit, 'reminders')
+    actions.listenForChanges(commit, 'notes')
+  },
+  listenForChanges(commit, collection) {
     firebase
       .auth()
       .onAuthStateChanged((response) => {
         if (response) {
           commit('setUser', response)
-          router.push("/HomeView")
-
+          router.push('/HomeView')
           db.collection('users')
             .doc(response.uid)
-            .get()
-            .then((doc) => {
-              if (doc.exists) {
-                const data = doc.data()
-                commit('setNotes', data.notes)
-                commit('setReminders', data.reminders)
-                commit('setTasks', data.tasks)
-              }
-              else {
-                actions.loadEmptyUserDataInFireStore()
-                //Todo: when user didnt have data and signs in. this method is called, but the data isn't loaded into ram. only into firestore
-              }
+            .collection('data')
+            .doc(collection)
+            .onSnapshot(function (doc) {
+              let data = []
+              if (doc.exists)
+                data = doc.data().list
+
+              const nameCapitalized = collection.charAt(0).toUpperCase() + collection.slice(1)
+              commit('set' + nameCapitalized, data) //setTask | setReminders | setNotes
             })
         }
         else {
           commit('setUser', null)
-          router.push("/SignInView")
+          router.push('/SignInView')
         }
-
       })
   },
   signIn({ commit }, user) {
@@ -57,7 +57,7 @@ const actions = {
       .auth()
       .signInWithEmailAndPassword(email, pw)
       .catch(() => {
-        console.error("error")
+        console.error('error')
       })
   },
   register({ commit }, user) {
@@ -68,27 +68,29 @@ const actions = {
       .auth()
       .createUserWithEmailAndPassword(email, pw)
       .then(() => {
-        actions.loadEmptyUserDataInFireStore()
+        // actions.loadEmptyUserDataInFireStore()
       })
       .catch((ex) => {
-        console.error("error", ex)
+        console.error('error', ex)
       });
-  },
-  loadEmptyUserDataInFireStore() {
-    const uid = firebase.auth().currentUser.uid
-    db.collection("users")
-      .doc(uid)
-      .set({
-        tasks: [],
-        reminders: [],
-        notes: []
-      })
-      .catch((ex) => {
-        console.error("error", ex)
-      })
   },
   signOut({ commit }) {
     firebase.auth().signOut()
+  },
+  addTask({ commit }) {
+    const uid = firebase.auth().currentUser.uid
+    db.collection('users')
+      .doc(uid)
+      .collection('data')
+      .doc('tasks')
+      .set({
+        list: firebase.firestore.FieldValue.arrayUnion({
+          title: 'new task',
+          content: '',
+          tags: ['big', 'small'],
+          date: Date.now(),
+        })
+      }, { merge: true });
   }
 }
 
