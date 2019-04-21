@@ -89,6 +89,15 @@ const actions = {
         date: today,
       })
       .catch((error) => console.error("error: ", error))
+  },
+  removeTask({ commit }, taskId) {
+    const uid = firebase.auth().currentUser.uid
+    db.collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .doc(taskId)
+      .delete()
+      .catch((error) => console.error("Error removing document: ", error));
   }
 }
 

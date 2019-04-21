@@ -15,16 +15,22 @@
           </p>
         </div>
         <p class="m-0">{{task.data().content}}</p>
-      
+        <p>
+          <button @click="removeTask(task.id)" type="button" class="btn btn-primary">Delete</button>
+        </p>
       </b-card-text>
     </b-card>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "TaskItem",
-  props: ["task"]
+  props: ["task"],
+  methods: {
+    ...mapActions(["removeTask"])
+  }
 };
 </script>
 
