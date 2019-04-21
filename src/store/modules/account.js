@@ -19,9 +19,9 @@ const getters = {
 /* eslint-disable */
 const actions = {
   initAccount({ commit }) {
-    actions.listenForChanges(commit, 'taskss')
-    // actions.listenForChanges(commit, 'reminders')
-    // actions.listenForChanges(commit, 'notes')
+    actions.listenForChanges(commit, 'tasks')
+    actions.listenForChanges(commit, 'reminders')
+    actions.listenForChanges(commit, 'notes')
   },
   listenForChanges(commit, collection) {
     firebase
@@ -32,17 +32,18 @@ const actions = {
           router.push('/HomeView')
           db.collection('users')
             .doc(response.uid)
-            .collection('data')
-            .doc(collection)
-            .onSnapshot(function (doc) {
-              let data = []
-              if (doc.exists)
-                data = doc.data().list
+            .collection(collection)
+            .orderBy('date')
+            .onSnapshot(function (querySnapshot) {
+              const list = []
+
+              querySnapshot.forEach(function (doc) {
+                list.push(doc)
+              });
 
               const nameCapitalized = collection.charAt(0).toUpperCase() + collection.slice(1)
-              // commit('set' + nameCapitalized, data) //setTask | setReminders | setNotes
-              commit('setTasks', data) //setTask | setReminders | setNotes
-            })
+              commit('set' + nameCapitalized, list) //setTask | setReminders | setNotes
+            });
         }
         else {
           commit('setUser', null)
@@ -68,9 +69,6 @@ const actions = {
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, pw)
-      .then(() => {
-        // actions.loadEmptyUserDataInFireStore()
-      })
       .catch((ex) => {
         console.error('error', ex)
       });
@@ -81,20 +79,15 @@ const actions = {
   addTask({ commit }) {
     const uid = firebase.auth().currentUser.uid
     const today = Date.now();
-
-    console.log("adding");
     db.collection('users')
       .doc(uid)
-      .collection('data')
-      .doc('taskss')
-      .set({
-        list: firebase.firestore.FieldValue.arrayUnion({
-          title: 'new task',
-          content: 'dat',
-          tags: ['big', 'small'],
-          date: today, //id: prevents new task from overiding existing one
-        })
-      }, { merge: true })
+      .collection('tasks')
+      .add({
+        title: 'new task',
+        content: 'dat',
+        tags: ['big', 'small'],
+        date: today,
+      })
       .catch((error) => console.error("error: ", error))
   }
 }

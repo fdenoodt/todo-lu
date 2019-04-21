@@ -1,23 +1,21 @@
 <template>
   <div>
     <b-card class="p-0 mb-1">
-      <b-card-text class="p-0 m-0">
-        <b-row>
-          <b-col md="auto">
-            <h2 class="m-0 lead">{{task.title}}</h2>
-          </b-col>
-          <b-col md="auto" class="p-0 m-0">
-            <p class="m-0 text-muted">
-              {{new Date(task.date).toLocaleDateString("nl-BE")}}
-              <span class="font-weight-bold text-primary">
-                {{
-                Math.floor(((new Date(task.date)) - new Date()) / (24 * 60 * 60 * 1000)) + 1
-                }}D
-              </span>
-            </p>
-          </b-col>
-        </b-row>
-        <p class="m-0">{{task.content}}</p>
+      <b-card-text>
+        <div class="row">
+          <h2 class="col m-0 lead">{{task.data().title}}</h2>
+          <p class="col m-0 text-muted">
+            {{new Date(task.data().date).toLocaleDateString("nl-BE")}}
+            <span
+              class="font-weight-bold text-primary"
+            >
+              {{Math.floor(((new Date(task.data().date)) -
+              new Date()) / (24 * 60 * 60 * 1000)) + 1}}D
+            </span>
+          </p>
+        </div>
+        <p class="m-0">{{task.data().content}}</p>
+      
       </b-card-text>
     </b-card>
   </div>
