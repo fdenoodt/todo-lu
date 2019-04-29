@@ -2,35 +2,52 @@
   <div>
     <b-card class="p-0 mb-1">
       <b-card-text v-show="editStatus">
-        <div class="row">
-          <h2 class="col m-0 lead" v-show="editStatus">{{task.data().title}}</h2>
-          <p class="col m-0 text-muted">
-            <span v-show="editStatus">{{new Date(task.data().date).toLocaleDateString("nl-BE")}}</span>
-            <span class="font-weight-bold text-primary">
-              {{Math.floor(((new Date(task.data().date)) -
-              new Date()) / (24 * 60 * 60 * 1000)) + 1}}D
-            </span>
-          </p>
+        <div class="m-0 text-muted">
+          <span>{{new Date(task.data().date).toLocaleDateString("nl-BE")}}</span>
+          <span class="font-weight-bold text-primary">
+            {{Math.floor(((new Date(task.data().date)) -
+            new Date()) / (24 * 60 * 60 * 1000)) + 1}}D
+          </span>
         </div>
         <div class="m-0">
           <span v-show="editStatus">{{task.data().content}}</span>
         </div>
-        <p>
+        <div class="mt-1">
           <button @click="removeTask(task.id)" type="button" class="btn btn-primary">Delete</button>
           <button @click="editTheStatus" type="button" class="btn btn-primary">Edit</button>
-        </p>
+        </div>
       </b-card-text>
 
       <b-card-text v-show="!editStatus">
         <form>
           <p>
-            <b-form-input type="text" v-model="editedTaskItem.title"></b-form-input>
-          </p>
-          <p>
             <date-picker v-model="editedTaskItem.date" :config="options"></date-picker>
           </p>
           <p>
-            <b-form-input v-model="editedTaskItem.content"></b-form-input>
+            <editor
+              api-key="le96jjyz4xlxqt253bhlkmilpapl19astxv62p1s5fp1uku6"
+              v-model="editedTaskItem.content"
+              :init="{
+                branding: false,
+                toolbar: false,
+                statusbar: false,
+                anchorbar: false,
+                setup: function(ed) {
+                  ed.on('keydown', function(event) {
+                      if (event.keyCode == 9) { // tab pressed
+                        if (event.shiftKey) {
+                          ed.execCommand('Outdent');
+                        }
+                        else {
+                          ed.execCommand('Indent');
+                        }
+
+                        event.preventDefault();
+                        return false;
+                      }
+                  });
+                }}"
+            ></editor>
           </p>
           <p>
             <button @click="editTheStatus" type="button" class="btn btn-primary">Cancel</button>
@@ -47,6 +64,8 @@ import { mapActions } from "vuex";
 import datePicker from "vue-bootstrap-datetimepicker";
 import "pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css";
 
+import editor from "@tinymce/tinymce-vue";
+
 export default {
   name: "TaskItem",
   props: ["task"],
@@ -57,14 +76,12 @@ export default {
       this.editedTaskItem = {
         content: this.task.data().content,
         date: new Date(this.task.data().date).toLocaleDateString("nl-BE"),
-        title: this.task.data().title,
         tags: this.task.data().tags,
         id: this.task.id
       };
     },
     update() {
       //Todo: save into firestore
-      this.editTheStatus();
     }
   },
   data() {
@@ -78,7 +95,8 @@ export default {
     };
   },
   components: {
-    datePicker
+    datePicker,
+    editor
   }
 };
 </script>
@@ -105,5 +123,9 @@ b-badge {
   text-align: center;
   font-size: 12px;
   line-height: 1.42857;
+}
+
+.test {
+  background: blue;
 }
 </style>
