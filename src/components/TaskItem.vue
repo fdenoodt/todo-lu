@@ -3,13 +3,13 @@
     <b-card class="p-0 mb-1">
       <b-card-text v-show="editStatus">
         <div class="m-0 text-muted">
-          <span>{{new Date((task.data().date).toLocaleDateString("en-US")).toLocaleDateString("nl-BE")}}</span>
+          <span>{{new Date((task.data().date)).toLocaleDateString("nl-BE")}}</span>
           <span class="font-weight-bold text-primary">
             {{Math.floor(((new Date(task.data().date)) -
             new Date()) / (24 * 60 * 60 * 1000)) + 1}}D
           </span>
         </div>
-        <div class="m-0">
+        <div class="m-0 content">
           <div v-html="task.data().content"></div>
         </div>
         <div class="mt-1">
@@ -25,6 +25,7 @@
           </p>
           <p>
             <editor
+              class="editor"
               api-key="le96jjyz4xlxqt253bhlkmilpapl19astxv62p1s5fp1uku6"
               v-model="editedTaskItem.content"
               :init="{
@@ -75,14 +76,14 @@ export default {
       this.editStatus = !this.editStatus;
       this.editedTaskItem = {
         content: this.task.data().content,
-        date: this.task.data().date,
+        date: new Date(this.task.data().date).toLocaleDateString("en-US"),
         tags: this.task.data().tags,
         done: this.task.data().done
       };
     },
     update() {
-      /* eslint-disable */
       this.editTask({ id: this.task.id, task: this.editedTaskItem });
+      this.editStatus = !this.editStatus;
     }
   },
   data() {
@@ -90,7 +91,7 @@ export default {
       editStatus: true,
       editedTaskItem: {},
       options: {
-        format: "DD/MM/YYYY",
+        format: "MM/DD/YYYY",
         useCurrent: false
       }
     };
@@ -126,7 +127,7 @@ b-badge {
   line-height: 1.42857;
 }
 
-.test {
-  background: blue;
+.content {
+  line-height: 0.5em;
 }
 </style>

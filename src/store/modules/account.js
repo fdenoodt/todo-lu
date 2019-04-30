@@ -80,7 +80,7 @@ const actions = {
   },
   addTask({ commit }) {
     const uid = firebase.auth().currentUser.uid
-    const today = Date.now();
+    const today = new Date().toLocaleDateString("en-US");
     db.collection('users')
       .doc(uid)
       .collection('tasks')
