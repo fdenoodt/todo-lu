@@ -24,6 +24,7 @@ const actions = {
     actions.listenForChanges(commit, 'notes')
   },
   listenForChanges(commit, collection) {
+    const oi = null;
     firebase
       .auth()
       .onAuthStateChanged((response) => {
@@ -34,6 +35,7 @@ const actions = {
             .doc(response.uid)
             .collection(collection)
             .orderBy('date')
+            .where('done', '==', false)
             .onSnapshot(function (querySnapshot) {
               const list = []
 
@@ -83,11 +85,22 @@ const actions = {
       .doc(uid)
       .collection('tasks')
       .add({
-        title: 'new task',
-        content: 'dat',
+        content: '<h2></h2>',
         tags: ['big', 'small'],
         date: today,
+        done: false
       })
+      .catch((error) => console.error("error: ", error))
+  },
+  editTask({ commit }, data) {
+    const uid = firebase.auth().currentUser.uid
+    const id = data.id
+    const task = data.task
+    db.collection('users')
+      .doc(uid)
+      .collection('tasks')
+      .doc(id)
+      .update(task)
       .catch((error) => console.error("error: ", error))
   },
   removeTask({ commit }, taskId) {

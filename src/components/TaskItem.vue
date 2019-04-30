@@ -3,14 +3,14 @@
     <b-card class="p-0 mb-1">
       <b-card-text v-show="editStatus">
         <div class="m-0 text-muted">
-          <span>{{new Date(task.data().date).toLocaleDateString("nl-BE")}}</span>
+          <span>{{new Date((task.data().date).toLocaleDateString("en-US")).toLocaleDateString("nl-BE")}}</span>
           <span class="font-weight-bold text-primary">
             {{Math.floor(((new Date(task.data().date)) -
             new Date()) / (24 * 60 * 60 * 1000)) + 1}}D
           </span>
         </div>
         <div class="m-0">
-          <span v-show="editStatus">{{task.data().content}}</span>
+          <div v-html="task.data().content"></div>
         </div>
         <div class="mt-1">
           <button @click="removeTask(task.id)" type="button" class="btn btn-primary">Delete</button>
@@ -70,18 +70,19 @@ export default {
   name: "TaskItem",
   props: ["task"],
   methods: {
-    ...mapActions(["removeTask"]),
+    ...mapActions(["removeTask", "editTask"]),
     editTheStatus() {
       this.editStatus = !this.editStatus;
       this.editedTaskItem = {
         content: this.task.data().content,
-        date: new Date(this.task.data().date).toLocaleDateString("nl-BE"),
+        date: this.task.data().date,
         tags: this.task.data().tags,
-        id: this.task.id
+        done: this.task.data().done
       };
     },
     update() {
-      //Todo: save into firestore
+      /* eslint-disable */
+      this.editTask({ id: this.task.id, task: this.editedTaskItem });
     }
   },
   data() {
