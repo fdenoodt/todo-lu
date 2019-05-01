@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import TaskItem from "./TaskItem.vue";
 
 export default {
@@ -17,10 +17,15 @@ export default {
   },
   computed: {
     ...mapGetters(["getTasks"])
+  },
+  methods: {
+    ...mapActions(["initTasks"])
+  },
+  created() {
+    this.initTasks();
   }
 };
 </script>
 
 <style scoped>
-
 </style>

@@ -6,12 +6,14 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import account from './modules/account.js'
+import tasks from './modules/tasks.js'
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
 
 export default new Vuex.Store({
   modules: {
-    account
+    account,
+    tasks
   }
 })
